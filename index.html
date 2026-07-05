@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#232a5c">
+<title>東京ふたり旅 2026.7.28-29</title>
+<style>
+  :root {
+    --bg: #f5f3ee;
+    --card: #ffffff;
+    --ink: #2a2733;
+    --muted: #837e8c;
+    --line: #e8e4dd;
+    --accent: #d9455f;
+    --accent-soft: #fdeef1;
+    --indigo: #232a5c;
+    --ok: #2e7d4f;
+    --ok-soft: #e6f4ec;
+    --warn: #a86a12;
+    --warn-soft: #fdf3e3;
+    --link: #2b5d8a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16151c;
+      --card: #211f2a;
+      --ink: #ece9f1;
+      --muted: #9a95a5;
+      --line: #37343f;
+      --accent: #f06a82;
+      --accent-soft: #3a2530;
+      --ok: #6ecb96;
+      --ok-soft: #23362b;
+      --warn: #e2a94f;
+      --warn-soft: #3a3121;
+      --link: #7fb2dd;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    padding-bottom: calc(70px + env(safe-area-inset-bottom));
+  }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 14px; }
+
+  /* ヘッダー */
+  header {
+    background: linear-gradient(135deg, #232a5c 0%, #45286b 60%, #6b2d5e 100%);
+    color: #fff;
+    padding: 26px 0 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header .deco { position: absolute; font-size: 42px; opacity: .25; user-select: none; }
+  header .deco.d1 { top: 8px; left: 8%; }
+  header .deco.d2 { bottom: 4px; right: 6%; font-size: 56px; }
+  header h1 { font-size: 22px; letter-spacing: .08em; position: relative; }
+  header .dates { font-size: 13.5px; opacity: .9; margin-top: 4px; position: relative; }
+  header .count {
+    display: inline-block; margin-top: 10px; padding: 4px 16px;
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35);
+    border-radius: 999px; font-size: 14px; position: relative;
+  }
+
+  main { padding-top: 16px; }
+  .page { display: none; }
+  .page.active { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 14px; padding: 16px; margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  }
+  .card h2 {
+    font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 7px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--line);
+  }
+  .card h3 { font-size: 14px; margin: 14px 0 6px; color: var(--accent); }
+  .card p, .card li { font-size: 14px; }
+  .muted { color: var(--muted); font-size: 12.5px; }
+  ul.plain { list-style: none; }
+  ul.plain li { padding: 4px 0; }
+  ul.dot { padding-left: 20px; }
+  ul.dot li { margin: 4px 0; }
+
+  .chip {
+    display: inline-block; font-size: 11.5px; font-weight: 600;
+    padding: 2px 10px; border-radius: 999px; white-space: nowrap;
+  }
+  .chip.ok { color: var(--ok); background: var(--ok-soft); }
+  .chip.warn { color: var(--warn); background: var(--warn-soft); }
+
+  .status-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 10px 2px; border-bottom: 1px dashed var(--line);
+  }
+  .status-row:last-child { border-bottom: none; }
+  .status-row .name { font-size: 14px; }
+  .status-row .sub { font-size: 12px; color: var(--muted); }
+
+  .btn {
+    display: block; text-align: center; margin-top: 10px;
+    background: var(--accent); color: #fff; text-decoration: none;
+    padding: 11px; border-radius: 10px; font-size: 14.5px; font-weight: 600;
+  }
+  .btn.sub { background: transparent; color: var(--link); border: 1.5px solid var(--link); }
+  a { color: var(--link); }
+
+  /* タイムライン */
+  .tl { list-style: none; margin-top: 4px; }
+  .tl li { display: flex; gap: 12px; position: relative; padding-bottom: 14px; }
+  .tl li::before {
+    content: ""; position: absolute; left: 57px; top: 22px; bottom: -2px;
+    width: 2px; background: var(--line);
+  }
+  .tl li:last-child::before { display: none; }
+  .tl .time { flex: 0 0 48px; font-size: 12px; font-weight: 700; color: var(--accent); padding-top: 3px; text-align: right; }
+  .tl .dot-mark {
+    flex: 0 0 12px; height: 12px; margin-top: 5px; border-radius: 50%;
+    background: var(--card); border: 3px solid var(--accent); z-index: 1;
+  }
+  .tl .body { flex: 1; font-size: 13.5px; }
+  .tl .body .t { font-weight: 600; font-size: 14px; }
+  .tl .body .d { color: var(--muted); font-size: 12.5px; }
+  .day-label {
+    display: inline-block; background: var(--indigo); color: #fff;
+    font-size: 13px; font-weight: 700; padding: 3px 14px; border-radius: 999px; margin: 4px 0 12px;
+  }
+  @media (prefers-color-scheme: dark) { .day-label { background: #4a4f8a; } }
+
+  /* 表 */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 6px 0; }
+  th, td { padding: 7px 6px; border-bottom: 1px solid var(--line); text-align: left; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; }
+  tr.hl td { background: var(--accent-soft); font-weight: 700; }
+
+  .notice {
+    background: var(--warn-soft); border-left: 4px solid var(--warn);
+    border-radius: 8px; padding: 10px 12px; font-size: 13px; margin: 10px 0;
+  }
+  .notice.red { background: var(--accent-soft); border-left-color: var(--accent); }
+
+  .kv { display: flex; gap: 10px; padding: 6px 0; border-bottom: 1px dashed var(--line); font-size: 13.5px; }
+  .kv:last-child { border-bottom: none; }
+  .kv .k { flex: 0 0 96px; color: var(--muted); font-size: 12.5px; padding-top: 1px; }
+  .kv .v { flex: 1; }
+
+  /* チェックリスト */
+  .check-group { margin-bottom: 6px; }
+  label.check {
+    display: flex; align-items: flex-start; gap: 10px; padding: 8px 4px;
+    border-bottom: 1px dashed var(--line); font-size: 14px; cursor: pointer;
+  }
+  label.check input { width: 19px; height: 19px; margin-top: 2px; accent-color: var(--accent); flex-shrink: 0; }
+  label.check.done span { text-decoration: line-through; color: var(--muted); }
+
+  footer { text-align: center; padding: 18px 14px 8px; }
+  footer p { font-size: 11px; color: var(--muted); }
+
+  /* 下部ナビ */
+  nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 10;
+    background: var(--card); border-top: 1px solid var(--line);
+    display: flex; justify-content: space-around;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+  }
+  nav button {
+    flex: 1; max-width: 128px; background: none; border: none; cursor: pointer;
+    font-family: inherit; color: var(--muted); font-size: 10.5px;
+    display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 4px 0;
+  }
+  nav button .ico { font-size: 21px; line-height: 1.2; }
+  nav button.active { color: var(--accent); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="deco d1">🎆</span><span class="deco d2">🏮</span>
+  <h1>東京ふたり旅</h1>
+  <div class="dates">2026.7.28(火) — 7.29(水) ｜ 浅草泊・葛飾花火</div>
+  <div class="count" id="countdown">…</div>
+</header>
+
+<main class="wrap">
+
+  <!-- ホーム -->
+  <section class="page active" id="page-home">
+    <div class="card">
+      <h2>📌 予約ステータス</h2>
+      <div class="status-row">
+        <div><div class="name">✈️ 航空券(JAL往復)</div><div class="sub">往路 JAL624 熊本8:40→羽田10:20 ／ 復路 JAL637 羽田17:35→熊本19:20</div></div>
+        <span class="chip ok">予約済み</span>
+      </div>
+      <div class="status-row">
+        <div><div class="name">🏨 御宿 野乃浅草(朝食付き)</div><div class="sub">7/28から1泊・クイーン禁煙・チェックイン15:00</div></div>
+        <span class="chip ok">予約済み</span>
+      </div>
+      <div class="status-row">
+        <div><div class="name">🎆 花火大会 有料席</div><div class="sub">2人マス席【平面】15列15番・2枚(7/5 チケットぴあで購入)</div></div>
+        <span class="chip ok">購入済み</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🗓 旅のハイライト</h2>
+      <ul class="dot">
+        <li><b>1日目:</b> 浅草散策 → 夜は<b>第60回 葛飾納涼花火大会</b>(約2万発+ドローンショー)</li>
+        <li><b>宿:</b> 天然温泉「凌雲の湯」とサウナでととのう。夜鳴きそば・朝は海鮮丼バイキング</li>
+        <li><b>2日目:</b> 表参道・南青山(ドルセー)→ 麻布台ヒルズ(カルトゥージア)で買い物</li>
+      </ul>
+      <div class="notice">🎫 予約はすべて完了! あとは<b>チケットの受取方法(発券/電子表示)の確認</b>と持ち物の準備だけ。</div>
+    </div>
+  </section>
+
+  <!-- 行程 -->
+  <section class="page" id="page-plan">
+    <div class="card">
+      <span class="day-label">1日目 7/28(火)</span>
+      <ul class="tl">
+        <li><div class="time">08:40</div><div class="dot-mark"></div><div class="body"><div class="t">熊本空港 発(JAL624)</div><div class="d">10:20 羽田空港 着</div></div></li>
+        <li><div class="time">11:00</div><div class="dot-mark"></div><div class="body"><div class="t">羽田 → 浅草</div><div class="d">京急→都営浅草線 直通・約40分・IC635円。ホテルに荷物を預ける</div></div></li>
+        <li><div class="time">昼</div><div class="dot-mark"></div><div class="body"><div class="t">浅草で昼食・浅草寺散策</div></div></li>
+        <li><div class="time">15:00</div><div class="dot-mark"></div><div class="body"><div class="t">チェックイン(御宿 野乃浅草)</div><div class="d">ウェルカムドリンク 15:00〜21:00</div></div></li>
+        <li><div class="time">16:00</div><div class="dot-mark"></div><div class="body"><div class="t">浅草 発 → 柴又へ</div><div class="d">浅草線→京成高砂 乗換→金町線「柴又」・約30分・IC377円</div></div></li>
+        <li><div class="time">16:40</div><div class="dot-mark"></div><div class="body"><div class="t">柴又 着。帝釈天参道・屋台めぐり</div><div class="d">草だんご(高木屋 〜17時)。会場内は売店ほぼ無し→飲み物・食べ物をここで調達</div></div></li>
+        <li><div class="time">18:00</div><div class="dot-mark"></div><div class="body"><div class="t">有料席(平面エリア)に入場</div><div class="d">開場16:00。18時を過ぎると大混雑するので早めに</div></div></li>
+        <li><div class="time">19:20</div><div class="dot-mark"></div><div class="body"><div class="t">🎆 花火大会(〜20:30)</div><div class="d">約2万発+第60回記念ドローンショー</div></div></li>
+        <li><div class="time">20:30</div><div class="dot-mark"></div><div class="body"><div class="t">帰りは焦らず</div><div class="d">柴又駅は入場規制。30分〜1時間待つ or 新柴又駅/高砂駅へ分散</div></div></li>
+        <li><div class="time">22:00</div><div class="dot-mark"></div><div class="body"><div class="t">浅草帰着 → 温泉&夜鳴きそば</div><div class="d">大浴場〜翌10:00/夜鳴きそば21:30〜23:00。浅草寺ライトアップは〜23時</div></div></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <span class="day-label">2日目 7/29(水)</span>
+      <ul class="tl">
+        <li><div class="time">朝</div><div class="dot-mark"></div><div class="body"><div class="t">朝風呂 → 朝食バイキング</div><div class="d">朝食6:15〜10:00(最終入店9:30)。海鮮丼・牛鍋。混むので余裕を持って</div></div></li>
+        <li><div class="time">11:00</div><div class="dot-mark"></div><div class="body"><div class="t">チェックアウト</div><div class="d">荷物はホテルに預けられる(当日中)</div></div></li>
+        <li><div class="time">11:30</div><div class="dot-mark"></div><div class="body"><div class="t">浅草 → 表参道</div><div class="d">銀座線1本・約30分・260円</div></div></li>
+        <li><div class="time">12:00</div><div class="dot-mark"></div><div class="body"><div class="t">ドルセー青山本店・南青山で買い物</div><div class="d">D'ORSAY 12:00開店(南青山3-18-7)。Ron Herman・Saturdays NYCなども徒歩圏</div></div></li>
+        <li><div class="time">午後</div><div class="dot-mark"></div><div class="body"><div class="t">麻布台ヒルズ(カルトゥージア)</div><div class="d">表参道→神谷町 約15〜20分。神谷町駅直結</div></div></li>
+        <li><div class="time">15:00</div><div class="dot-mark"></div><div class="body"><div class="t">浅草に戻り荷物回収</div></div></li>
+        <li><div class="time">15:30</div><div class="dot-mark"></div><div class="body"><div class="t">浅草 発 → 羽田空港</div><div class="d">浅草線→京急 直通・約40分。保安検査は17:15まで/JALは第1ターミナル</div></div></li>
+        <li><div class="time">17:35</div><div class="dot-mark"></div><div class="body"><div class="t">羽田 発(JAL637)</div><div class="d">19:20 熊本空港 着</div></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ホテル -->
+  <section class="page" id="page-hotel">
+    <div class="card">
+      <h2>🏨 天然温泉 凌雲の湯 御宿 野乃浅草</h2>
+      <p class="muted">ドーミーインチェーン ｜ 全室畳敷き・靴を脱いで過ごすお宿</p>
+      <div style="margin-top:8px">
+        <div class="kv"><div class="k">住所</div><div class="v">〒111-0032 東京都台東区浅草2-7-20</div></div>
+        <div class="kv"><div class="k">電話</div><div class="v"><a href="tel:0358300510">03-5830-0510</a></div></div>
+        <div class="kv"><div class="k">チェックイン</div><div class="v">15:00 〜</div></div>
+        <div class="kv"><div class="k">チェックアウト</div><div class="v">11:00</div></div>
+        <div class="kv"><div class="k">プラン</div><div class="v">【大浴場×サウナでととのう!】スタンダードプラン(朝食付き)</div></div>
+        <div class="kv"><div class="k">部屋</div><div class="v">【禁煙】クイーン(サータ社製ベッド)・1部屋・大人2名</div></div>
+        <div class="kv"><div class="k">最寄駅</div><div class="v">つくばエクスプレス浅草駅 A1出口 徒歩約4分<br>銀座線浅草駅 1番出口 徒歩約8分</div></div>
+      </div>
+      <a class="btn" href="https://www.google.com/maps/search/?api=1&query=%E5%BE%A1%E5%AE%BF%E9%87%8E%E4%B9%83%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">Googleマップで開く</a>
+      <a class="btn sub" href="https://www.jalan.net/yad334364/" target="_blank" rel="noopener">じゃらん予約ページ</a>
+      <a class="btn sub" href="https://dormy-hotels.com/dormyinn/hotels/nono_asakusa/" target="_blank" rel="noopener">公式サイト</a>
+    </div>
+
+    <div class="card">
+      <h2>♨️ 大浴場「凌雲の湯」(B1F)</h2>
+      <div class="kv"><div class="k">営業時間</div><div class="v">15:00〜翌10:00(サウナは深夜1:00〜5:00休止)</div></div>
+      <div class="kv"><div class="k">お湯</div><div class="v">自家源泉の黒湯(ナトリウム-炭酸水素塩・塩化物冷鉱泉)+半露天の壺風呂</div></div>
+      <div class="kv"><div class="k">男湯</div><div class="v">高温ドライサウナ(TV付)+チラー付き壺水風呂</div></div>
+      <div class="kv"><div class="k">女湯</div><div class="v">ミストサウナ(TV付)※水風呂なし</div></div>
+      <p class="muted" style="margin-top:6px">浴室へのスマホ持込は禁止。</p>
+    </div>
+
+    <div class="card">
+      <h2>🍜 無料の名物サービス</h2>
+      <table>
+        <tr><th>サービス</th><th>時間</th></tr>
+        <tr><td>ウェルカムドリンク</td><td>15:00〜21:00</td></tr>
+        <tr><td>湯上がりアイス(B1F)</td><td>15:00〜翌1:00</td></tr>
+        <tr class="hl"><td>夜鳴きそば(1F食事処)</td><td>21:30〜23:00</td></tr>
+        <tr><td>朝の乳酸菌飲料(B1F)</td><td>5:00〜10:00</td></tr>
+      </table>
+      <p class="muted">花火から22時頃帰着でも夜鳴きそばに間に合う予定◎</p>
+    </div>
+
+    <div class="card">
+      <h2>🍚 朝食バイキング(プランに含む)</h2>
+      <ul class="dot">
+        <li>1F食事処 ｜ <b>6:15〜10:00</b>(最終入店 9:30)</li>
+        <li>名物「お好み海鮮丼」(好きなネタを自分で盛る)と「牛鍋」</li>
+        <li>混雑しやすいので時間に余裕をもって</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 花火 -->
+  <section class="page" id="page-hanabi">
+    <div class="card">
+      <h2>🎆 第60回 葛飾納涼花火大会</h2>
+      <div class="kv"><div class="k">日時</div><div class="v"><b>2026年7月28日(火) 19:20〜20:30</b>(有料席開場 16:00)</div></div>
+      <div class="kv"><div class="k">会場</div><div class="v">葛飾区柴又野球場(江戸川河川敷)・柴又駅から徒歩約10分</div></div>
+      <div class="kv"><div class="k">規模</div><div class="v">約20,000発+第60回記念ドローンショー(例年来場者 約77万人)</div></div>
+      <div class="kv"><div class="k">天候</div><div class="v">雨天決行・荒天中止(延期なし。打上開始前の中止のみ払い戻し)</div></div>
+      <a class="btn sub" href="https://www.google.com/maps/search/?api=1&query=%E8%91%9B%E9%A3%BE%E5%8C%BA%E6%9F%B4%E5%8F%88%E9%87%8E%E7%90%83%E5%A0%B4" target="_blank" rel="noopener">会場をGoogleマップで開く</a>
+    </div>
+
+    <div class="card">
+      <h2>🎫 わたしたちの席(購入済み)</h2>
+      <table>
+        <tr><th>項目</th><th>内容</th></tr>
+        <tr class="hl"><td>席種</td><td>2人マス席【平面】× 2枚</td></tr>
+        <tr class="hl"><td>座席</td><td>平面 15列 15番</td></tr>
+        <tr><td>購入</td><td>2026年7月5日・チケットぴあ</td></tr>
+      </table>
+      <ul class="dot">
+        <li>平面エリアは<b>唯一の平坦地の席</b>(他エリアは河川敷の斜面)。ビニールシート敷き済み</li>
+        <li>薄手のクッションを持って行くと快適</li>
+        <li><b>雨天決行・荒天中止(延期なし)</b>。払い戻しは打上開始前の中止のみ</li>
+      </ul>
+      <div class="notice">チケットの受取方法(セブン発券 or 電子表示)を事前に確認しておくこと。</div>
+    </div>
+
+    <div class="card">
+      <h2>🚃 アクセス(浅草⇄柴又)</h2>
+      <h3>行き(約30分・IC377円)</h3>
+      <ul class="dot">
+        <li>浅草(都営浅草線)→ 押上から京成直通 →「京成高砂」乗換 → 金町線1駅 →「柴又」</li>
+        <li>柴又駅から会場まで徒歩約10分。当日17時頃から金町線は増便</li>
+        <li><b>18時以降は大混雑</b> → 16時台〜17時半の柴又入りがおすすめ</li>
+      </ul>
+      <h3>帰り(要注意!)</h3>
+      <ul class="dot">
+        <li>終了直後の<b>柴又駅は入場規制</b>(入るだけで30分〜1時間超)</li>
+        <li>作戦①: 終了後30分〜1時間、河川敷でゆっくりしてから移動</li>
+        <li>作戦②: 新柴又駅(徒歩15分・浅草線直通あり)や京成高砂駅まで歩く(約25分)</li>
+        <li><b>ICカードは行く前に2人とも多めにチャージ</b>(帰りは券売機も大行列)</li>
+        <li>浅草帰着は22時前後の想定。終電の心配は不要</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>⛩ 花火前の柴又さんぽ</h2>
+      <ul class="dot">
+        <li>帝釈天参道で屋台・食べ歩き(焼きそば・かき氷など)</li>
+        <li>高木屋老舗の草だんご(売店〜17:00)</li>
+        <li>うなぎの川千家は<b>火曜定休 → 7/28は休みの可能性大</b>(特別営業は要確認)</li>
+        <li>会場の河川敷は売店ほぼ無し・日陰なし → 飲み物と食べ物は参道で調達</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- メモ -->
+  <section class="page" id="page-memo">
+    <div class="card">
+      <h2>🎒 持ち物チェックリスト</h2>
+      <p class="muted">チェックはこの端末に保存されます(2人それぞれの端末で使えます)</p>
+      <h3>花火大会用</h3>
+      <div class="check-group" id="check-hanabi"></div>
+      <h3>1泊2日の基本</h3>
+      <div class="check-group" id="check-basic"></div>
+    </div>
+
+    <div class="card">
+      <h2>🛍 2日目の買い物メモ</h2>
+      <ul class="dot">
+        <li><b>ドルセー(D'ORSAY)青山本店</b> — 南青山3-18-7 1F ｜ 12:00〜20:00 ｜ 表参道駅A5徒歩1分</li>
+        <li><b>カルトゥージア 麻布台ヒルズ店</b> — 麻布台1-2-3 レジデンスA 1F ｜ 11:00〜20:00 ｜ 神谷町駅直結</li>
+        <li>ハワイ旅行(9月)用の服も物色: Ron Herman・Saturdays NYC・45R(南青山)、ESTNATION(六本木)など</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>☀️ 暑さ・天気メモ(7月下旬の東京)</h2>
+      <ul class="dot">
+        <li>日中35℃前後の猛暑も想定。夜も25℃超の熱帯夜</li>
+        <li>河川敷は日陰なし(開場16時台はまだ日差し強め)</li>
+        <li>夕立・ゲリラ雷雨のリスクあり → 当日は雨雲レーダー確認。花火は荒天中止</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>🔗 リンク集</h2>
+      <ul class="plain">
+        <li>🎆 <a href="https://www.city.katsushika.lg.jp/tourism/1000064/1000065/1031830.html" target="_blank" rel="noopener">葛飾納涼花火大会(葛飾区公式)</a></li>
+        <li>🎫 <a href="https://t.pia.jp/pia/event/event.do?eventBundleCd=b2668196" target="_blank" rel="noopener">チケットぴあ 販売ページ</a></li>
+        <li>🏨 <a href="https://dormy-hotels.com/dormyinn/hotels/nono_asakusa/" target="_blank" rel="noopener">御宿 野乃浅草(公式)</a></li>
+        <li>🏨 <a href="https://www.jalan.net/yad334364/" target="_blank" rel="noopener">じゃらん 予約ページ</a></li>
+        <li>✈️ <a href="https://www.jal.co.jp/" target="_blank" rel="noopener">JAL(搭乗手続き)</a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>情報は2026年7月5日時点の公式サイト等より。価格・時間は変わることがあるので最新情報は各公式サイトで確認してください。</p>
+</footer>
+
+<nav>
+  <button data-page="home" class="active"><span class="ico">🏠</span>ホーム</button>
+  <button data-page="plan"><span class="ico">🗓</span>行程</button>
+  <button data-page="hotel"><span class="ico">🏨</span>ホテル</button>
+  <button data-page="hanabi"><span class="ico">🎆</span>花火</button>
+  <button data-page="memo"><span class="ico">🎒</span>メモ</button>
+</nav>
+
+<script>
+  // タブ切替
+  const navBtns = document.querySelectorAll('nav button');
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
+    navBtns.forEach(b => b.classList.toggle('active', b.dataset.page === id));
+    window.scrollTo(0, 0);
+  }
+  navBtns.forEach(b => b.addEventListener('click', () => showPage(b.dataset.page)));
+
+  // カウントダウン
+  (function () {
+    const el = document.getElementById('countdown');
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const day1 = new Date(2026, 6, 28);
+    const day2 = new Date(2026, 6, 29);
+    const diff = Math.round((day1 - today) / 86400000);
+    if (diff > 0) el.textContent = '出発まで あと ' + diff + ' 日';
+    else if (today.getTime() === day1.getTime()) el.textContent = '🎆 今日は花火大会!';
+    else if (today.getTime() === day2.getTime()) el.textContent = '旅行2日目 — 気をつけて帰ろう';
+    else el.textContent = 'おつかれさま! いい旅でした🎆';
+  })();
+
+  // 持ち物チェックリスト(localStorage)
+  const ITEMS = {
+    'check-hanabi': [
+      ['ticket', '🎫 花火のチケット2枚(受取方法を確認・当日忘れずに)'],
+      ['ic', 'ICカード2人分・多めにチャージ済み'],
+      ['drink', '飲み物(多めに・熱中症対策)'],
+      ['fan', 'ハンディファン・うちわ'],
+      ['towel', '冷感タオル・汗拭きタオル'],
+      ['bugspray', '虫除けスプレー(河川敷)'],
+      ['battery', 'モバイルバッテリー(帰りの混雑に必須)'],
+      ['cushion', '薄手のクッション・座布団(シートは敷いてある)'],
+      ['rain', '薄手のレインウェア(傘は視界の邪魔に)'],
+      ['wetwipe', 'ウェットティッシュ・ゴミ袋'],
+    ],
+    'check-basic': [
+      ['clothes', '着替え(1泊分)'],
+      ['toiletries', '洗面用具'],
+      ['charger', '充電器'],
+      ['wallet', '財布・現金・カード'],
+      ['flight', '航空券(予約確認・QR)'],
+      ['medicine', '常備薬'],
+    ],
+  };
+  const LS_KEY = 'tokyo-trip-2026-checklist';
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch (e) { saved = {}; }
+  Object.entries(ITEMS).forEach(([groupId, items]) => {
+    const wrap = document.getElementById(groupId);
+    items.forEach(([id, text]) => {
+      const label = document.createElement('label');
+      label.className = 'check' + (saved[id] ? ' done' : '');
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.checked = !!saved[id];
+      const span = document.createElement('span');
+      span.textContent = text;
+      cb.addEventListener('change', () => {
+        saved[id] = cb.checked;
+        label.classList.toggle('done', cb.checked);
+        try { localStorage.setItem(LS_KEY, JSON.stringify(saved)); } catch (e) {}
+      });
+      label.append(cb, span);
+      wrap.appendChild(label);
+    });
+  });
+</script>
+</body>
+</html>
