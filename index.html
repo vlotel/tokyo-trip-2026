@@ -164,6 +164,31 @@
   label.check input { width: 19px; height: 19px; margin-top: 2px; accent-color: var(--accent); flex-shrink: 0; }
   label.check.done span { text-decoration: line-through; color: var(--muted); }
 
+  /* 行程パターン切替 */
+  .seg {
+    display: flex; gap: 4px; background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 4px; margin-bottom: 12px;
+  }
+  .seg button {
+    flex: 1; border: none; background: none; font-family: inherit; cursor: pointer;
+    color: var(--muted); font-size: 13px; font-weight: 700; padding: 8px 4px; border-radius: 9px;
+  }
+  .seg button span { display: block; font-size: 10.5px; font-weight: 500; }
+  .seg button.active { background: var(--accent); color: #fff; }
+  .seg button.active span { color: rgba(255,255,255,.85); }
+
+  /* 共有メモ */
+  #shared-memo {
+    width: 100%; min-height: 140px; resize: none; margin-top: 4px;
+    border: 1.5px solid var(--line); border-radius: 10px;
+    background: var(--bg); color: var(--ink);
+    font-family: inherit; font-size: 14px; line-height: 1.6; padding: 10px 12px;
+  }
+  #shared-memo:focus { outline: none; border-color: var(--accent); }
+  .memo-status { text-align: right; font-size: 11.5px; color: var(--muted); margin-top: 6px; }
+  .memo-status.ok { color: var(--ok); }
+  .memo-status.warn { color: var(--warn); }
+
   footer { text-align: center; padding: 18px 14px 8px; }
   footer p { font-size: 11px; color: var(--muted); }
 
@@ -215,9 +240,9 @@
     <div class="card">
       <h2>🗓 旅のハイライト</h2>
       <ul class="dot">
-        <li><b>1日目:</b> 浅草散策 → 夜は<b>第60回 葛飾納涼花火大会</b>(約2万発+ドローンショー)</li>
+        <li><b>夜のメイン:</b> 7/28は<b>第60回 葛飾納涼花火大会</b>(約2万発+ドローンショー)。柴又に17時頃入り</li>
         <li><b>宿:</b> 天然温泉「凌雲の湯」とサウナでととのう。夜鳴きそば・朝は海鮮丼バイキング</li>
-        <li><b>2日目:</b> 表参道・南青山(ドルセー)→ 麻布台ヒルズ(カルトゥージア)で買い物</li>
+        <li><b>買い物:</b> 表参道・南青山(ドルセー)+麻布台ヒルズ(カルトゥージア)。<b>1日目に行くか2日目に行くか、行程タブの2パターンから相談中</b></li>
       </ul>
       <div class="notice">🎫 予約はすべて完了! あとは<b>チケットの受取方法(発券/電子表示)の確認</b>と持ち物の準備だけ。</div>
     </div>
@@ -225,34 +250,87 @@
 
   <!-- 行程 -->
   <section class="page" id="page-plan">
-    <div class="card">
-      <span class="day-label">1日目 7/28(火)</span>
-      <ul class="tl">
-        <li><div class="time">08:40</div><div class="dot-mark"></div><div class="body"><div class="t">熊本空港 発(JAL624)</div><div class="d">10:20 羽田空港 着</div></div></li>
-        <li><div class="time">11:00</div><div class="dot-mark"></div><div class="body"><div class="t">羽田 → 浅草</div><div class="d">京急→都営浅草線 直通・約40分・IC635円。ホテルに荷物を預ける</div></div></li>
-        <li><div class="time">昼</div><div class="dot-mark"></div><div class="body"><div class="t">浅草で昼食・浅草寺散策</div></div></li>
-        <li><div class="time">15:00</div><div class="dot-mark"></div><div class="body"><div class="t">チェックイン(御宿 野乃浅草)</div><div class="d">ウェルカムドリンク 15:00〜21:00</div></div></li>
-        <li><div class="time">16:00</div><div class="dot-mark"></div><div class="body"><div class="t">浅草 発 → 柴又へ</div><div class="d">浅草線→京成高砂 乗換→金町線「柴又」・約30分・IC377円</div></div></li>
-        <li><div class="time">16:40</div><div class="dot-mark"></div><div class="body"><div class="t">柴又 着。帝釈天参道・屋台めぐり</div><div class="d">草だんご(高木屋 〜17時)。会場内は売店ほぼ無し→飲み物・食べ物をここで調達</div></div></li>
-        <li><div class="time">18:00</div><div class="dot-mark"></div><div class="body"><div class="t">有料席(平面エリア)に入場</div><div class="d">開場16:00。18時を過ぎると大混雑するので早めに</div></div></li>
-        <li><div class="time">19:20</div><div class="dot-mark"></div><div class="body"><div class="t">🎆 花火大会(〜20:30)</div><div class="d">約2万発+第60回記念ドローンショー</div></div></li>
-        <li><div class="time">20:30</div><div class="dot-mark"></div><div class="body"><div class="t">帰りは焦らず</div><div class="d">柴又駅は入場規制。30分〜1時間待つ or 新柴又駅/高砂駅へ分散</div></div></li>
-        <li><div class="time">22:00</div><div class="dot-mark"></div><div class="body"><div class="t">浅草帰着 → 温泉&夜鳴きそば</div><div class="d">大浴場〜翌10:00/夜鳴きそば21:30〜23:00。浅草寺ライトアップは〜23時</div></div></li>
-      </ul>
+    <div class="seg" id="plan-seg">
+      <button data-plan="p1" class="active">パターン1<span>買い物は2日目</span></button>
+      <button data-plan="p2">パターン2<span>買い物は1日目</span></button>
+    </div>
+
+    <!-- パターン1: 買い物は2日目 -->
+    <div id="plan-p1">
+      <div class="card">
+        <span class="day-label">1日目 7/28(火) — 浅草ゆったり&花火</span>
+        <ul class="tl">
+          <li><div class="time">08:40</div><div class="dot-mark"></div><div class="body"><div class="t">熊本空港 発(JAL624)</div><div class="d">10:20 羽田空港 着</div></div></li>
+          <li><div class="time">11:00</div><div class="dot-mark"></div><div class="body"><div class="t">羽田 → 浅草</div><div class="d">京急→都営浅草線 直通・約40分・IC635円。ホテルに荷物を預ける</div></div></li>
+          <li><div class="time">昼</div><div class="dot-mark"></div><div class="body"><div class="t">浅草で昼食・浅草寺散策</div></div></li>
+          <li><div class="time">15:00</div><div class="dot-mark"></div><div class="body"><div class="t">チェックイン(御宿 野乃浅草)</div><div class="d">ウェルカムドリンク 15:00〜21:00</div></div></li>
+          <li><div class="time">16:15</div><div class="dot-mark"></div><div class="body"><div class="t">浅草 発 → 柴又へ</div><div class="d">浅草線→京成高砂 乗換→金町線「柴又」・約30分・IC377円</div></div></li>
+          <li><div class="time">17:00</div><div class="dot-mark"></div><div class="body"><div class="t">柴又 着。帝釈天参道・屋台めぐり</div><div class="d">会場内は売店ほぼ無し→飲み物・食べ物をここで調達</div></div></li>
+          <li><div class="time">18:00</div><div class="dot-mark"></div><div class="body"><div class="t">有料席(平面 15列15番)に入場</div><div class="d">開場16:00。18時を過ぎると大混雑するので早めに</div></div></li>
+          <li><div class="time">19:20</div><div class="dot-mark"></div><div class="body"><div class="t">🎆 花火大会(〜20:30)</div><div class="d">約2万発+第60回記念ドローンショー</div></div></li>
+          <li><div class="time">20:30</div><div class="dot-mark"></div><div class="body"><div class="t">帰りは焦らず</div><div class="d">柴又駅は入場規制。30分〜1時間待つ or 新柴又駅/高砂駅へ分散</div></div></li>
+          <li><div class="time">22:00</div><div class="dot-mark"></div><div class="body"><div class="t">浅草帰着 → 温泉&夜鳴きそば</div><div class="d">大浴場〜翌10:00/夜鳴きそば21:30〜23:00。浅草寺ライトアップは〜23時</div></div></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <span class="day-label">2日目 7/29(水) — 表参道・麻布台で買い物</span>
+        <ul class="tl">
+          <li><div class="time">朝</div><div class="dot-mark"></div><div class="body"><div class="t">朝風呂 → 朝食バイキング</div><div class="d">朝食6:15〜10:00(最終入店9:30)。海鮮丼・牛鍋。混むので余裕を持って</div></div></li>
+          <li><div class="time">11:00</div><div class="dot-mark"></div><div class="body"><div class="t">チェックアウト</div><div class="d">荷物はホテルに預けられる(当日中)</div></div></li>
+          <li><div class="time">11:30</div><div class="dot-mark"></div><div class="body"><div class="t">浅草 → 表参道</div><div class="d">銀座線1本・約30分・260円</div></div></li>
+          <li><div class="time">12:00</div><div class="dot-mark"></div><div class="body"><div class="t">ドルセー青山本店・南青山で買い物</div><div class="d">D'ORSAY 12:00開店(南青山3-18-7)。Ron Herman・Saturdays NYCなども徒歩圏</div></div></li>
+          <li><div class="time">午後</div><div class="dot-mark"></div><div class="body"><div class="t">麻布台ヒルズ(カルトゥージア)</div><div class="d">表参道→神谷町 約15〜20分。神谷町駅直結</div></div></li>
+          <li><div class="time">15:00</div><div class="dot-mark"></div><div class="body"><div class="t">浅草に戻り荷物回収</div><div class="d">買い物の荷物ごと空港へ</div></div></li>
+          <li><div class="time">15:30</div><div class="dot-mark"></div><div class="body"><div class="t">浅草 発 → 羽田空港</div><div class="d">浅草線→京急 直通・約40分。保安検査は17:15まで/JALは第1ターミナル</div></div></li>
+          <li><div class="time">17:35</div><div class="dot-mark"></div><div class="body"><div class="t">羽田 発(JAL637)</div><div class="d">19:20 熊本空港 着</div></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- パターン2: 買い物は1日目 -->
+    <div id="plan-p2" hidden>
+      <div class="card">
+        <span class="day-label">1日目 7/28(火) — 買い物してから花火へ</span>
+        <ul class="tl">
+          <li><div class="time">08:40</div><div class="dot-mark"></div><div class="body"><div class="t">熊本空港 発(JAL624)</div><div class="d">10:20 羽田空港 着</div></div></li>
+          <li><div class="time">10:50</div><div class="dot-mark"></div><div class="body"><div class="t">羽田 → 神谷町(麻布台ヒルズ)</div><div class="d">浅草線直通→東銀座→日比谷線・約45分。大きな荷物は羽田のコインロッカーへ(先にホテルに預ける場合は+50分)</div></div></li>
+          <li><div class="time">11:40</div><div class="dot-mark"></div><div class="body"><div class="t">カルトゥージア(麻布台ヒルズ)+昼食</div><div class="d">11:00開店・神谷町駅直結。昼食は館内で</div></div></li>
+          <li><div class="time">13:10</div><div class="dot-mark"></div><div class="body"><div class="t">神谷町 → 表参道</div><div class="d">約15〜20分</div></div></li>
+          <li><div class="time">13:30</div><div class="dot-mark"></div><div class="body"><div class="t">ドルセー青山本店・南青山で買い物</div><div class="d">Ron Herman・Saturdays NYCなども徒歩圏。〜14:45まで</div></div></li>
+          <li><div class="time">14:45</div><div class="dot-mark"></div><div class="body"><div class="t">表参道 発 → 浅草</div><div class="d">銀座線1本・約30分</div></div></li>
+          <li><div class="time">15:20</div><div class="dot-mark"></div><div class="body"><div class="t">チェックイン。買い物の荷物を部屋へ</div><div class="d">羽田のロッカーに預けた場合は荷物は翌日回収でもOK(帰りに羽田で受取)</div></div></li>
+          <li><div class="time">16:15</div><div class="dot-mark"></div><div class="body"><div class="t">浅草 発 → 柴又へ</div><div class="d">浅草線→京成高砂 乗換→金町線「柴又」・約30分・IC377円</div></div></li>
+          <li><div class="time">17:00</div><div class="dot-mark"></div><div class="body"><div class="t">柴又 着。帝釈天参道・屋台めぐり</div><div class="d">会場内は売店ほぼ無し→飲み物・食べ物をここで調達</div></div></li>
+          <li><div class="time">18:00</div><div class="dot-mark"></div><div class="body"><div class="t">有料席(平面 15列15番)に入場</div><div class="d">開場16:00。18時を過ぎると大混雑するので早めに</div></div></li>
+          <li><div class="time">19:20</div><div class="dot-mark"></div><div class="body"><div class="t">🎆 花火大会(〜20:30)</div><div class="d">約2万発+第60回記念ドローンショー</div></div></li>
+          <li><div class="time">20:30</div><div class="dot-mark"></div><div class="body"><div class="t">帰りは焦らず → 22時頃 浅草帰着</div><div class="d">温泉&夜鳴きそば(21:30〜23:00)</div></div></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <span class="day-label">2日目 7/29(水) — 浅草をゆっくり</span>
+        <ul class="tl">
+          <li><div class="time">朝</div><div class="dot-mark"></div><div class="body"><div class="t">朝風呂 → 朝食バイキング</div><div class="d">朝食6:15〜10:00(最終入店9:30)。海鮮丼・牛鍋</div></div></li>
+          <li><div class="time">午前</div><div class="dot-mark"></div><div class="body"><div class="t">浅草寺・仲見世をゆっくり散策</div><div class="d">店は9時頃から順次オープン。朝の浅草寺は比較的空いている</div></div></li>
+          <li><div class="time">11:00</div><div class="dot-mark"></div><div class="body"><div class="t">チェックアウト</div><div class="d">荷物はホテルに預けられる(当日中)</div></div></li>
+          <li><div class="time">昼</div><div class="dot-mark"></div><div class="body"><div class="t">浅草で昼食・お土産</div><div class="d">うなぎ・天ぷら・すき焼きなど老舗が豊富</div></div></li>
+          <li><div class="time">15:00</div><div class="dot-mark"></div><div class="body"><div class="t">荷物回収</div></div></li>
+          <li><div class="time">15:30</div><div class="dot-mark"></div><div class="body"><div class="t">浅草 発 → 羽田空港</div><div class="d">浅草線→京急 直通・約40分。保安検査は17:15まで/JALは第1ターミナル</div></div></li>
+          <li><div class="time">17:35</div><div class="dot-mark"></div><div class="body"><div class="t">羽田 発(JAL637)</div><div class="d">19:20 熊本空港 着</div></div></li>
+        </ul>
+      </div>
     </div>
 
     <div class="card">
-      <span class="day-label">2日目 7/29(水)</span>
-      <ul class="tl">
-        <li><div class="time">朝</div><div class="dot-mark"></div><div class="body"><div class="t">朝風呂 → 朝食バイキング</div><div class="d">朝食6:15〜10:00(最終入店9:30)。海鮮丼・牛鍋。混むので余裕を持って</div></div></li>
-        <li><div class="time">11:00</div><div class="dot-mark"></div><div class="body"><div class="t">チェックアウト</div><div class="d">荷物はホテルに預けられる(当日中)</div></div></li>
-        <li><div class="time">11:30</div><div class="dot-mark"></div><div class="body"><div class="t">浅草 → 表参道</div><div class="d">銀座線1本・約30分・260円</div></div></li>
-        <li><div class="time">12:00</div><div class="dot-mark"></div><div class="body"><div class="t">ドルセー青山本店・南青山で買い物</div><div class="d">D'ORSAY 12:00開店(南青山3-18-7)。Ron Herman・Saturdays NYCなども徒歩圏</div></div></li>
-        <li><div class="time">午後</div><div class="dot-mark"></div><div class="body"><div class="t">麻布台ヒルズ(カルトゥージア)</div><div class="d">表参道→神谷町 約15〜20分。神谷町駅直結</div></div></li>
-        <li><div class="time">15:00</div><div class="dot-mark"></div><div class="body"><div class="t">浅草に戻り荷物回収</div></div></li>
-        <li><div class="time">15:30</div><div class="dot-mark"></div><div class="body"><div class="t">浅草 発 → 羽田空港</div><div class="d">浅草線→京急 直通・約40分。保安検査は17:15まで/JALは第1ターミナル</div></div></li>
-        <li><div class="time">17:35</div><div class="dot-mark"></div><div class="body"><div class="t">羽田 発(JAL637)</div><div class="d">19:20 熊本空港 着</div></div></li>
-      </ul>
+      <h2>🆚 パターン比較</h2>
+      <table>
+        <tr><th></th><th>パターン1(買い物2日目)</th><th>パターン2(買い物1日目)</th></tr>
+        <tr><td>1日目</td><td>浅草でのんびり→花火</td><td>移動多め・買い物タイト</td></tr>
+        <tr><td>2日目</td><td>買い物→荷物ごと空港へ。時間に追われがち</td><td>浅草をゆっくり→余裕の帰路</td></tr>
+        <tr><td>買い物袋</td><td>持ったまま帰る</td><td>花火前に部屋へ置ける</td></tr>
+      </table>
+      <p class="muted">どちらも柴又17時頃着・花火の予定は同じ。決めたら「メモ」タブの共有メモに書いておこう!</p>
     </div>
   </section>
 
@@ -365,6 +443,13 @@
   <!-- メモ -->
   <section class="page" id="page-memo">
     <div class="card">
+      <h2>📝 ふたりの共有メモ</h2>
+      <p class="muted">ここに書いた内容は2人のスマホで共有されます(自動保存)。</p>
+      <textarea id="shared-memo" placeholder="気づいたこと・買いたいもの・食べたいもの・行程の相談など、自由にどうぞ"></textarea>
+      <div class="memo-status" id="memo-status">接続中…</div>
+    </div>
+
+    <div class="card">
       <h2>🎒 持ち物チェックリスト</h2>
       <p class="muted">チェックはこの端末に保存されます(2人それぞれの端末で使えます)</p>
       <h3>花火大会用</h3>
@@ -418,6 +503,21 @@
 </nav>
 
 <script>
+  // 行程パターン切替
+  const PLAN_LS_KEY = 'tokyo-trip-2026-plan';
+  const segBtns = document.querySelectorAll('#plan-seg button');
+  function showPlan(id) {
+    document.getElementById('plan-p1').hidden = (id !== 'p1');
+    document.getElementById('plan-p2').hidden = (id !== 'p2');
+    segBtns.forEach(b => b.classList.toggle('active', b.dataset.plan === id));
+    try { localStorage.setItem(PLAN_LS_KEY, id); } catch (e) {}
+  }
+  segBtns.forEach(b => b.addEventListener('click', () => showPlan(b.dataset.plan)));
+  try {
+    const savedPlan = localStorage.getItem(PLAN_LS_KEY);
+    if (savedPlan === 'p2') showPlan('p2');
+  } catch (e) {}
+
   // タブ切替
   const navBtns = document.querySelectorAll('nav button');
   function showPage(id) {
@@ -485,6 +585,90 @@
       wrap.appendChild(label);
     });
   });
+</script>
+
+<script type="module">
+  // ふたりの共有メモ(Firebase Firestore同期)
+  // ドキュメント: trips/tokyo-2026(ハワイアプリと同じプロジェクト・別ドキュメント)
+  // Firestoreルールに trips/tokyo-2026 の許可が追加されるまでは端末内保存で動作する。
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBuWNSuI_e6hskif_8wC1Q3nC4HyjIltbk",
+    authDomain: "hawaii-trip-2026-62b56.firebaseapp.com",
+    projectId: "hawaii-trip-2026-62b56",
+    storageBucket: "hawaii-trip-2026-62b56.firebasestorage.app",
+    messagingSenderId: "117801255420",
+    appId: "1:117801255420:web:b83c363be041a4ce0c7279",
+  };
+
+  const MEMO_LS_KEY = 'tokyo-trip-2026-memo-draft';
+  const ta = document.getElementById('shared-memo');
+  const statusEl = document.getElementById('memo-status');
+
+  function setStatus(text, cls) {
+    statusEl.textContent = text;
+    statusEl.className = 'memo-status' + (cls ? ' ' + cls : '');
+  }
+  function autoGrow() {
+    ta.style.height = 'auto';
+    ta.style.height = Math.max(140, ta.scrollHeight) + 'px';
+  }
+
+  // ローカル下書きを即表示(オフライン・共有設定前でも使える)
+  try { ta.value = localStorage.getItem(MEMO_LS_KEY) || ''; } catch (e) {}
+  autoGrow();
+
+  let memoDoc = null, denied = false, lastSaveTime = 0, saveTimer = null;
+
+  function queueSave() {
+    if (!memoDoc || denied) return;
+    setStatus('保存中…');
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      lastSaveTime = Date.now();
+      setDoc(memoDoc, { sharedMemo: ta.value, updatedAt: new Date().toISOString() }, { merge: true })
+        .then(() => {
+          const t = new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+          setStatus('✓ 共有済み ' + t, 'ok');
+        })
+        .catch(() => {
+          denied = true;
+          setStatus('⚠ 共有未接続 — この端末にのみ保存中', 'warn');
+        });
+    }, 800);
+  }
+
+  ta.addEventListener('input', () => {
+    autoGrow();
+    try { localStorage.setItem(MEMO_LS_KEY, ta.value); } catch (e) {}
+    queueSave();
+  });
+
+  try {
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    memoDoc = doc(db, 'trips', 'tokyo-2026');
+    onSnapshot(memoDoc, (snap) => {
+      if (snap.metadata.hasPendingWrites) return;          // 自分の書き込みのエコー
+      if (Date.now() - lastSaveTime < 3000) return;        // 直後の再通知を無視
+      const remote = snap.exists() ? (snap.data().sharedMemo || '') : '';
+      if (!remote && ta.value) { queueSave(); return; }    // リモート空・ローカルに下書き→送信
+      if (document.activeElement === ta) return;           // 入力中は上書きしない
+      if (remote !== ta.value) {
+        ta.value = remote;
+        try { localStorage.setItem(MEMO_LS_KEY, remote); } catch (e) {}
+        autoGrow();
+      }
+      setStatus('✓ 共有中(自動保存)', 'ok');
+    }, () => {
+      denied = true;
+      setStatus('⚠ 共有未接続 — この端末にのみ保存中', 'warn');
+    });
+  } catch (e) {
+    setStatus('⚠ 共有未接続 — この端末にのみ保存中', 'warn');
+  }
 </script>
 </body>
 </html>
